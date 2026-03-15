@@ -48,24 +48,24 @@ class BottomNavBarCubit extends Cubit<BottomNavBarState> {
       ),
       label: 'Add Task',
     ),
-    const BottomNavigationBarItem(
-      activeIcon: Icon(
-        Icons.person,
-        color: AppColors.deepPurple,
-      ),
-      icon: Icon(
-        Icons.person,
-        color: AppColors.grey,
-      ),
-      label: 'Profile',
-    ),
+    // const BottomNavigationBarItem(
+    //   activeIcon: Icon(
+    //     Icons.person,
+    //     color: AppColors.deepPurple,
+    //   ),
+    //   icon: Icon(
+    //     Icons.person,
+    //     color: AppColors.grey,
+    //   ),
+    //   label: 'Profile',
+    // ),
   ];
 
   List<Widget> get screens => [
     const Homeview(),
     const ProjectTaskView(),
     const AddTaskView(),
-    const Profileview(),
+    //const Profileview(),
   ];
 
   void onItemTapped(int index) {

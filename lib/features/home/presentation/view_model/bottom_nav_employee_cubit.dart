@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_manager/core/themes/colors.dart';
-import 'package:task_manager/features/home/presentation/view/home_view.dart';
+import 'package:task_manager/features/home/presentation/view/employee_home_view.dart';
 import 'package:task_manager/features/home/presentation/view_model/bottom_nav_employee_state.dart';
 import 'package:task_manager/features/profile/presentation/view/profile_view.dart';
 import 'package:task_manager/features/projectTask/presentation/view/project_task_view.dart';
+import 'package:task_manager/features/addTask/presentation/views/add_task_view.dart';
 
 
 
@@ -17,8 +18,9 @@ class BottomNavEmployeeCubit extends Cubit<BottomNavEmployeeState> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    const Homeview(),
+    const EmployeeHomeView(),
     const ProjectTaskView(),
+    const AddTaskView(),
     const Profileview()
   ];
   List<BottomNavigationBarItem> bottomItems = const [
@@ -34,12 +36,12 @@ class BottomNavEmployeeCubit extends Cubit<BottomNavEmployeeState> {
           color: AppColors.grey,
         ),
         label: 'Project'),
-    // BottomNavigationBarItem(
-    //     icon: Icon(
-    //       Icons.format_list_bulleted_add,
-    //       color: AppColors.grey,
-    //     ),
-    //     label: 'Add Task'),
+    BottomNavigationBarItem(
+        icon: Icon(
+          Icons.format_list_bulleted_add,
+          color: AppColors.grey,
+        ),
+        label: 'Add Task'),
     BottomNavigationBarItem(
         activeIcon: Icon(
           Icons.person,

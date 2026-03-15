@@ -9,6 +9,7 @@ import 'package:task_manager/core/shared%20widget/urgent_card.dart';
 import 'package:task_manager/core/themes/colors.dart';
 import 'package:task_manager/core/themes/style.dart';
 import 'package:task_manager/features/projectDetails/presentation/views/task_detail_view.dart';
+import 'package:task_manager/features/projectTask/presentation/view/project_task_view.dart';
 
 /// Fully static project detail body — no API or Bloc.
 class ProjectDetailsBody extends StatelessWidget {
@@ -67,6 +68,13 @@ class ProjectDetailsBody extends StatelessWidget {
                 // ── Project card ──────────────────────────────────────
                 UrgentProjectCard(
                   project: project,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TaskDetailView(task: tasks[0])),
+                    );
+                  },
                   progress: progress,
                   status: project.status ?? 'todo',
                 ),
@@ -86,8 +94,7 @@ class ProjectDetailsBody extends StatelessWidget {
                     ),
                     _Chip(
                       icon: Icons.calendar_today_outlined,
-                      label:
-                          'Due ${_formatDate(project.dueDate)}',
+                      label: 'Due ${_formatDate(project.dueDate)}',
                     ),
                   ],
                 ),
@@ -139,8 +146,7 @@ class ProjectDetailsBody extends StatelessWidget {
     );
   }
 
-  String _formatDate(DateTime d) =>
-      '${d.day}/${d.month}/${d.year}';
+  String _formatDate(DateTime d) => '${d.day}/${d.month}/${d.year}';
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -165,7 +171,8 @@ class _Chip extends StatelessWidget {
           Icon(icon, size: 14, color: AppColors.darkPurple),
           const SizedBox(width: 4),
           Text(label,
-              style: const TextStyle(fontSize: 12, color: AppColors.darkPurple)),
+              style:
+                  const TextStyle(fontSize: 12, color: AppColors.darkPurple)),
         ],
       ),
     );
@@ -217,9 +224,8 @@ class _TaskTile extends StatelessWidget {
               task.done == true
                   ? Icons.check_circle
                   : Icons.radio_button_unchecked,
-              color: task.done == true
-                  ? const Color(0xff388E3C)
-                  : AppColors.grey,
+              color:
+                  task.done == true ? const Color(0xff388E3C) : AppColors.grey,
               size: 22,
             ),
             const SizedBox(width: 12),
@@ -250,8 +256,7 @@ class _TaskTile extends StatelessWidget {
             const SizedBox(width: 8),
             // Priority badge
             Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
                 color: _priorityColor,
                 borderRadius: BorderRadius.circular(12),

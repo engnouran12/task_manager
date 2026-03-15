@@ -196,25 +196,25 @@ class _AddTaskBodyState extends State<AddTaskBody> {
                       },
                     ),
                   ),
-                  SizedBox(height: responsiveComponantSize(context, 10)),
-                  SizedBox(
-                    height: responsiveComponantSize(context, 80),
-                    child: DropDownButton<EmployeeData>(
-                      hinttext: 'Choose Employee',
-                      items: itemsemployee,
-                      itemBuilder: (item) => Row(
-                        children: [
-                          Text(item.firstName),
-                          Text(item.secondName),
-                        ],
+                  if (role == 'admin' || role == 'supervisor')
+                    SizedBox(
+                      height: responsiveComponantSize(context, 80),
+                      child: DropDownButton<EmployeeData>(
+                        hinttext: 'Choose Employee',
+                        items: itemsemployee,
+                        itemBuilder: (item) => Row(
+                          children: [
+                            Text(item.firstName),
+                            Text(item.secondName),
+                          ],
+                        ),
+                        onChanged: (selectedItem) {
+                          setState(() {
+                            selectedEmployeetid = selectedItem?.id ?? '';
+                          });
+                        },
                       ),
-                      onChanged: (selectedItem) {
-                        setState(() {
-                          selectedEmployeetid = selectedItem?.id ?? '';
-                        });
-                      },
                     ),
-                  ),
                   SizedBox(height: responsiveComponantSize(context, 10)),
                   Text('Description', style: AppStyles.styleMedium14(context)),
                   customTextFormField(
@@ -229,6 +229,11 @@ class _AddTaskBodyState extends State<AddTaskBody> {
                     buttontext: 'Add Task',
                     onpressed: () async {
                       if (_formKey.currentState!.validate()) {
+                        var finalEmployeeId = selectedEmployeetid;
+                        if (role == 'employee') {
+                          finalEmployeeId = id; // Assuming id holds the logged in user id
+                        }
+
                         var taskModel = TaskModel(
                           done: false,
                           projectId: selectedProjectid!,
@@ -236,7 +241,7 @@ class _AddTaskBodyState extends State<AddTaskBody> {
                           date: DateTime.parse(_dueDateController.text),
                           description: _descriptionController.text,
                           name: _nameController.text,
-                          employeeId: selectedEmployeetid!,
+                          employeeId: finalEmployeeId!,
                           createdat: DateTime.now(),
                           updatedat: DateTime.now(),
                         );

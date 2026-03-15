@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:task_manager/core/constant/constant.dart';
 import 'package:task_manager/core/mock/mock_data.dart';
@@ -16,11 +17,55 @@ class TaskDetailView extends StatefulWidget {
 
 class _TaskDetailViewState extends State<TaskDetailView> {
   late bool _done;
+  late double _completionRate;
+  Timer? _debounce;
 
   @override
   void initState() {
     super.initState();
     _done = widget.task.done ?? false;
+    _completionRate = widget.task.completionRate ?? (_done ? 1.0 : 0.0);
+  }
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    super.dispose();
+  }
+
+  void _onSliderChanged(double value) {
+    setState(() {
+      _completionRate = value;
+      if (value == 1.0) {
+        _done = true;
+      } else if (value == 0.0 && widget.task.done == true) {
+        _done = false;
+      }
+    });
+
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      // In a real app, you would dispatch a Bloc event here to patch completionRate
+      debugPrint("API debounced call: Patching completionRate to $_completionRate");
+    });
+  }
+
+  Color get _statusColor {
+    if (_done || _completionRate == 1.0) return Colors.green;
+    switch (widget.task.status) {
+      case 'NotStarted': return Colors.grey;
+      case 'InProgress': return Colors.blue;
+      case 'Completed': return Colors.green;
+      case 'Failed': return Colors.red;
+      case 'Deferred': return Colors.orange;
+      case 'Pending': return Colors.yellow.shade700;
+      default: return Colors.blue;
+    }
+  }
+
+  String get _statusText {
+    if (_done || _completionRate == 1.0) return 'Completed';
+    return widget.task.status ?? 'In Progress';
   }
 
   Color get _priorityColor {
@@ -179,19 +224,15 @@ class _TaskDetailViewState extends State<TaskDetailView> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 12, vertical: 5),
                                 decoration: BoxDecoration(
-                                  color: _done
-                                      ? Colors.green.shade50
-                                      : Colors.orange.shade50,
+                                  color: _statusColor.withOpacity(0.15),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Text(
-                                  _done ? 'Completed' : 'In Progress',
+                                  _statusText,
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w600,
-                                    color: _done
-                                        ? Colors.green.shade700
-                                        : Colors.orange.shade700,
+                                    color: _statusColor,
                                   ),
                                 ),
                               ),
@@ -201,6 +242,20 @@ class _TaskDetailViewState extends State<TaskDetailView> {
 
                           const Divider(height: 1, color: AppColors.greyWhite),
                           SizedBox(height: responsiveComponantSize(context, 16)),
+                          
+                          // Completion Slider
+                          Text('Task Progress: ${(_completionRate * 100).toInt()}%',
+                              style: AppStyles.styleSemiBold14(context)),
+                          Slider(
+                            value: _completionRate,
+                            min: 0.0,
+                            max: 1.0,
+                            divisions: 20,
+                            activeColor: AppColors.deepPurple,
+                            inactiveColor: AppColors.greyWhite,
+                            onChanged: _onSliderChanged,
+                          ),
+                          SizedBox(height: responsiveComponantSize(context, 8)),
 
                           // Description
                           Text('Description',

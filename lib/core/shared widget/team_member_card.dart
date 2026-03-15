@@ -3,6 +3,7 @@ import 'package:task_manager/core/constant/constant.dart';
 import 'package:task_manager/core/mock/mock_data.dart';
 import 'package:task_manager/core/themes/colors.dart';
 import 'package:task_manager/core/themes/style.dart';
+import 'package:task_manager/features/employees/presentation/views/employee_view.dart';
 
 /// Fully static team-members card — no API or Bloc needed.
 class AllemployeesCard extends StatelessWidget {
@@ -37,10 +38,20 @@ class AllemployeesCard extends StatelessWidget {
               children: [
                 Text('Team Members',
                     style: AppStyles.styleSemiBold14(context)),
-                Text(
-                  'See All',
-                  style: AppStyles.styleMedium14(context)
-                      .copyWith(color: AppColors.moreLightPurple),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const EmployeesView(),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    'See All',
+                    style: AppStyles.styleMedium14(context)
+                        .copyWith(color: AppColors.moreLightPurple),
+                  ),
                 ),
               ],
             ),

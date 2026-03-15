@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/core/constant/constant.dart';
 import 'package:task_manager/core/shared%20widget/custom_search_bar.dart';
-import 'package:task_manager/core/shared%20widget/team_member_card.dart';
 import 'package:task_manager/core/shared%20widget/urgent_project_list.dart';
 import 'package:task_manager/core/themes/colors.dart';
 import 'package:task_manager/core/themes/style.dart';
 import 'package:task_manager/features/home/presentation/view/wiget/home_app_bar.dart';
-import 'package:task_manager/features/home/presentation/view/wiget/project_list.dart';
-import 'package:task_manager/features/home/presentation/view/wiget/row_project.dart';
 import 'package:task_manager/features/home/presentation/view/wiget/quick_actions_group.dart';
 
-class HomeBody extends StatelessWidget {
-  const HomeBody({super.key});
+class EmployeeHomeBody extends StatelessWidget {
+  const EmployeeHomeBody({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,18 +23,14 @@ class HomeBody extends StatelessWidget {
                 const HomeAppBar(),
                 SizedBox(height: responsiveComponantSize(context, 16)),
                 const CustomSearchBar(hinttext: 'Search tasks...'),
-                SizedBox(height: responsiveComponantSize(context, 16)),
+                SizedBox(height: responsiveComponantSize(context, 24)),
                 const QuickActionsGroup(),
-                SizedBox(height: responsiveComponantSize(context, 16)),
+                SizedBox(height: responsiveComponantSize(context, 24)),
                 Text(
-                  'Projects',
+                  'My Active Tasks/Projects',
                   style: AppStyles.styleSemiBold20(context)
                       .copyWith(color: AppColors.darkPurple),
                 ),
-                SizedBox(height: responsiveComponantSize(context, 16)),
-                ProjectList(),
-                SizedBox(height: responsiveComponantSize(context, 24)),
-                const UrgentRow(),
                 SizedBox(height: responsiveComponantSize(context, 16)),
               ],
             ),
@@ -47,7 +40,6 @@ class HomeBody extends StatelessWidget {
         SliverToBoxAdapter(
           child: SizedBox(height: responsiveComponantSize(context, 16)),
         ),
-        const SliverToBoxAdapter(child: AllemployeesCard()),
       ],
     );
   }

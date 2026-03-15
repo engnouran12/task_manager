@@ -7,8 +7,7 @@ import 'package:task_manager/core/services/remote_repo/admin/admin_services.dart
 import 'package:task_manager/core/themes/colors.dart';
 import 'package:task_manager/core/themes/style.dart';
 
-import 'package:task_manager/features/home/presentation/view/wiget/bottom_bar_admin.dart';
-
+import 'package:task_manager/features/auth/presentation/view/choose_user_type_view.dart';
 
 class SplashBody extends StatefulWidget {
   const SplashBody({super.key});
@@ -97,7 +96,7 @@ class _SplashBodyState extends State<SplashBody>
     if (isAnimationFinished) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-            builder: (context) => const BottomNavigationBarAdmin()),
+            builder: (context) => const ChooseUserTypeView()),
       );
     }
   }

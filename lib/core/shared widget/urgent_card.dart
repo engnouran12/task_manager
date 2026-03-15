@@ -9,11 +9,12 @@ import '../constant/constant.dart';
 class UrgentProjectCard extends StatefulWidget {
   final ProjectModel project;
 
-  double progress = 0.0;
-  String status = 'to do'; // Default status
+  final double progress;
+  final String status; // Default status
+  final VoidCallback? onTap;
 
   UrgentProjectCard({super.key, required this.project,
-   required this.progress , this.status='to do'});
+   required this.progress , this.status='to do', this.onTap});
 
   @override
   State<UrgentProjectCard> createState() => _UrgentProjectCardState();
@@ -93,7 +94,7 @@ class _UrgentProjectCardState extends State<UrgentProjectCard> {
                       ),
                       const SizedBox(width: 8),
                       InkWell(
-                        onTap: () {},
+                        onTap: widget.onTap,
                         child: Icon(
                           size: screenWidth(context) / 25,
                           Icons.arrow_forward_ios,

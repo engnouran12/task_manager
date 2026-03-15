@@ -1,11 +1,14 @@
+import 'package:task_manager/core/models/Speciality/speciality_model.dart';
+import 'package:task_manager/core/models/employee/employee_data/employee_data.dart';
+import 'package:task_manager/core/models/employee/employee_data/phone_number.dart';
 import 'package:task_manager/core/models/projects/project_model.dart';
 import 'package:task_manager/core/models/task/task_model.dart';
 
 /// Central place for all static mock data used across the app.
 class MockData {
   // ── Admin / logged-in user ────────────────────────────────────────────
-  static const String adminFirstName = 'Sarah';
-  static const String adminLastName = 'Johnson';
+  static const String adminFirstName = 'Nouran';
+  static const String adminLastName = 'kadri';
   static const String adminRole = 'Admin';
 
   // ── Employees (avatars use initials / colours) ───────────────────────
@@ -17,6 +20,69 @@ class MockData {
     {'name': 'Reem Adel', 'initials': 'RA', 'color': '0xffE64A19', 'id': 'e5'},
     {'name': 'Tarek Nabil', 'initials': 'TN', 'color': '0xff1565C0', 'id': 'e6'},
     {'name': 'Dina Mostafa', 'initials': 'DM', 'color': '0xff558B2F', 'id': 'e7'},
+  ];
+
+  // ── Specialties ──────────────────────────────────────────────────────
+  static final List<Speciality> specialties = [
+    const Speciality(id: 's1', name: 'UI/UX Designer'),
+    const Speciality(id: 's2', name: 'Backend Developer'),
+    const Speciality(id: 's3', name: 'Frontend Developer'),
+    const Speciality(id: 's4', name: 'QA Engineer'),
+    const Speciality(id: 's5', name: 'DevOps Engineer'),
+    const Speciality(id: 's6', name: 'Project Manager'),
+  ];
+
+  // ── Full EmployeeData list (used by employee screens) ────────────────
+  static final List<EmployeeData> employeeDataList = [
+    EmployeeData(
+      id: 'e1', hidden: false, firstName: 'Ali', secondName: 'Hassan',
+      email: 'ali.hassan@company.com',
+      phoneNumber: const PhoneNumber(dialCode: '+20', phoneNumber: '1001001111'),
+      address: 'Cairo, Egypt', role: 'employee',
+      specialityId: Speciality(id: 's3', name: 'Frontend Developer'),
+    ),
+    EmployeeData(
+      id: 'e2', hidden: false, firstName: 'Mona', secondName: 'Saad',
+      email: 'mona.saad@company.com',
+      phoneNumber: const PhoneNumber(dialCode: '+20', phoneNumber: '1002002222'),
+      address: 'Alexandria, Egypt', role: 'employee',
+      specialityId: Speciality(id: 's1', name: 'UI/UX Designer'),
+    ),
+    EmployeeData(
+      id: 'e3', hidden: false, firstName: 'Omar', secondName: 'Fathy',
+      email: 'omar.fathy@company.com',
+      phoneNumber: const PhoneNumber(dialCode: '+20', phoneNumber: '1003003333'),
+      address: 'Giza, Egypt', role: 'employee',
+      specialityId: Speciality(id: 's2', name: 'Backend Developer'),
+    ),
+    EmployeeData(
+      id: 'e4', hidden: false, firstName: 'Nour', secondName: 'Khaled',
+      email: 'nour.khaled@company.com',
+      phoneNumber: const PhoneNumber(dialCode: '+20', phoneNumber: '1004004444'),
+      address: 'Mansoura, Egypt', role: 'employee',
+      specialityId: Speciality(id: 's4', name: 'QA Engineer'),
+    ),
+    EmployeeData(
+      id: 'e5', hidden: false, firstName: 'Reem', secondName: 'Adel',
+      email: 'reem.adel@company.com',
+      phoneNumber: const PhoneNumber(dialCode: '+20', phoneNumber: '1005005555'),
+      address: 'Tanta, Egypt', role: 'employee',
+      specialityId: Speciality(id: 's5', name: 'DevOps Engineer'),
+    ),
+    EmployeeData(
+      id: 'e6', hidden: false, firstName: 'Tarek', secondName: 'Nabil',
+      email: 'tarek.nabil@company.com',
+      phoneNumber: const PhoneNumber(dialCode: '+20', phoneNumber: '1006006666'),
+      address: 'Suez, Egypt', role: 'employee',
+      specialityId: Speciality(id: 's2', name: 'Backend Developer'),
+    ),
+    EmployeeData(
+      id: 'e7', hidden: false, firstName: 'Dina', secondName: 'Mostafa',
+      email: 'dina.mostafa@company.com',
+      phoneNumber: const PhoneNumber(dialCode: '+20', phoneNumber: '1007007777'),
+      address: 'Aswan, Egypt', role: 'employee',
+      specialityId: Speciality(id: 's6', name: 'Project Manager'),
+    ),
   ];
 
   // ── Projects ─────────────────────────────────────────────────────────

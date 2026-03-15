@@ -4,6 +4,7 @@ import 'package:task_manager/core/mock/mock_data.dart';
 import 'package:task_manager/core/models/projects/project_model.dart';
 import 'package:task_manager/core/shared%20widget/urgent_card.dart';
 import 'package:task_manager/core/themes/colors.dart';
+import 'package:task_manager/features/projectDetails/presentation/views/project_details_view.dart';
 
 /// Fully static replacement for UrgentProjectList — no API or Bloc needed.
 class UrgentProjectList extends StatelessWidget {
@@ -23,14 +24,25 @@ class UrgentProjectList extends StatelessWidget {
           final project = visibleProjects[index];
           final progress = MockData.projectProgress[project.id] ?? 0.0;
 
-          return Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: responsiveComponantSize(context, 24),
-            ),
-            child: UrgentProjectCard(
-              project: project,
-              status: project.status ?? 'todo',
-              progress: progress,
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) =>
+                      ProjectDetailsView(projectId: project.id!),
+                ),
+              );
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: responsiveComponantSize(context, 24),
+              ),
+              child: UrgentProjectCard(
+                project: project,
+                status: project.status ?? 'todo',
+                progress: progress,
+              ),
             ),
           );
         },

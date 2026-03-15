@@ -26,6 +26,95 @@ class _ProjectTaskCardState extends State<ProjectTaskCard> {
     super.initState();
     _projectTaskCubit = ProjectTaskCubit.get(context); // Cache the Cubit instance
   }
+
+  Color statusColor(String? status) {
+    if (widget.task.done == true) return Colors.green;
+    switch (status) {
+      case 'NotStarted': return Colors.grey;
+      case 'InProgress': return Colors.blue;
+      case 'Completed': return Colors.green;
+      case 'Failed': return Colors.red;
+      case 'Deferred': return Colors.orange;
+      case 'Pending': return Colors.yellow.shade700;
+      default: return Colors.blue; // Default for in progress
+    }
+  }
+
+  Future<void> _updateTaskStatus(bool done, String note) async {
+    setState(() {
+      widget.task.done = done;
+    });
+    // In a real app we would pass the note to the API.
+    await AddTaskCubit.get(context).patchtask(done, token!, widget.task.id ?? '', widget.projectId);
+    if (context.mounted) {
+      await _projectTaskCubit.changeProjectStatuse(context, widget.projectId);
+    }
+    if (widget.onChanged != null) {
+      widget.onChanged!(done);
+    }
+  }
+
+  void _showQuickCompleteSheet(BuildContext context, bool value) {
+    final TextEditingController noteController = TextEditingController();
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+            left: 16,
+            right: 16,
+            top: 24,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Quick Complete', style: AppStyles.stylebold24(context)),
+              const SizedBox(height: 16),
+              Text(widget.task.name, style: AppStyles.styleMedium14(context)),
+              const SizedBox(height: 16),
+              TextField(
+                controller: noteController,
+                decoration: const InputDecoration(
+                  labelText: 'Optional completion note',
+                  border: OutlineInputBorder(),
+                ),
+                maxLines: 3,
+              ),
+              const SizedBox(height: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Cancel'),
+                  ),
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _updateTaskStatus(true, noteController.text);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                    ),
+                    child: const Text('Mark Complete', style: TextStyle(color: Colors.white)),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -62,28 +151,30 @@ class _ProjectTaskCardState extends State<ProjectTaskCard> {
                  color: AppColors.deepPurple,
                ),
                 //
-                Text( ' ${widget.task.date.difference(DateTime.now()).inDays} Days left'),
+                Text( ' ${widget.task.date.difference(DateTime.now()).inDays} Days '),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: statusColor(widget.task.status).withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Text(
+                    widget.task.done == true ? 'Completed' : (widget.task.status ?? 'InProgress'),
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: statusColor(widget.task.status),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ],
             ),
             value: widget.task.done,
-            onChanged: (bool? value)async {
-              if (value != null) {
-                // Update the task's done status locally
-                setState(() {
-                  widget.task.done = value;
-                });
-
-                // Use the AddTaskCubit to update
-                // the task's status on the server
-              await  AddTaskCubit.get(context)
-                    .patchtask(value, token!, widget.task.id!,widget.projectId);
-              // change project status
-               await _projectTaskCubit.changeProjectStatuse(context,widget.projectId);
-
-                // Call the optional onChanged callback
-                if (widget.onChanged != null) {
-                  widget.onChanged!(value);
-                }
+            onChanged: (bool? value) async {
+              if (value != null && value == true) {
+                _showQuickCompleteSheet(context, value);
+              } else if (value != null) {
+                _updateTaskStatus(false, '');
               }
             },
           );
