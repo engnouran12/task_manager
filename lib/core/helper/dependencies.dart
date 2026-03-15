@@ -8,6 +8,11 @@ import 'package:task_manager/core/services/remote_repo/admin/projects/project.da
 import 'package:task_manager/core/services/remote_repo/admin/spacilitys/spacility.dart';
 import 'package:task_manager/core/services/remote_repo/admin/tasks/task.dart';
 import 'package:task_manager/core/services/remote_repo/auth.dart';
+import 'package:task_manager/features/ticketing/data/services/mock_ticket_service.dart';
+import 'package:task_manager/features/ticketing/presentation/view_model/create_ticket_cubit.dart';
+import 'package:task_manager/features/ticketing/presentation/view_model/ticket_cubit.dart';
+import 'package:task_manager/features/marketing/data/services/mock_marketing_service.dart';
+import 'package:task_manager/features/marketing/presentation/view_model/marketing_cubit.dart';
 import 'package:task_manager/features/addProject/presentation/view_model/add_project_cubit.dart';
 import 'package:task_manager/features/addTask/presentation/view_model/add_task_cubit.dart';
 import 'package:task_manager/features/auth/presentation/view_model/auth_cubit.dart';
@@ -38,6 +43,8 @@ Future<void> setupServiceLocator() async {
    getIt.registerLazySingleton(() => EmployeeServices());
    getIt.registerLazySingleton(() => ProjectServices());
    getIt.registerLazySingleton(() => SpecialityServices());
+   getIt.registerLazySingleton(() => MockTicketService());
+   getIt.registerLazySingleton(() => MarketingRepository());
 
   // Register Cubits
   getIt.registerFactory(() => AddTaskCubit(
@@ -60,6 +67,9 @@ Future<void> setupServiceLocator() async {
    getIt<AddTaskCubit>()
    ));
    getIt.registerFactory(() => SpecialtyCubit(getIt<SpecialityServices>()));
+    getIt.registerFactory(() => TicketCubit(getIt<MockTicketService>()));
+    getIt.registerFactory(() => CreateTicketCubit(getIt<MockTicketService>()));
+    getIt.registerFactory(() => MarketingCubit(getIt<MarketingRepository>()));
 
 
 

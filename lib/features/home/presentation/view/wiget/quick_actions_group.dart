@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:task_manager/core/constant/constant.dart';
 import 'package:task_manager/core/themes/colors.dart';
 import 'package:task_manager/core/themes/style.dart';
-import 'package:task_manager/features/ticketing/presentation/view/ticketing_view.dart';
+import 'package:task_manager/features/marketing/presentation/views/marketing_dashboard_screen.dart';
 import 'package:task_manager/features/meeting/presentation/view/meeting_view.dart';
+import 'package:task_manager/features/ticketing/presentation/views/ticket_list_screen.dart';
 
 class QuickActionsGroup extends StatelessWidget {
   const QuickActionsGroup({super.key});
@@ -15,7 +16,8 @@ class QuickActionsGroup extends StatelessWidget {
       children: [
         Text(
           'Modules',
-          style: AppStyles.styleSemiBold20(context).copyWith(color: AppColors.darkPurple),
+          style: AppStyles.styleSemiBold20(context)
+              .copyWith(color: AppColors.darkPurple),
         ),
         SizedBox(height: responsiveComponantSize(context, 16)),
         Row(
@@ -29,7 +31,9 @@ class QuickActionsGroup extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const TicketingView()),
+                  // MaterialPageRoute(builder: (context) => const TicketingView()),
+                  MaterialPageRoute(
+                      builder: (context) => const TicketListScreen()),
                 );
               },
             ),
@@ -46,6 +50,26 @@ class QuickActionsGroup extends StatelessWidget {
                 );
               },
             ),
+          ],
+        ),
+        SizedBox(height: responsiveComponantSize(context, 16)),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _buildActionCard(
+              context,
+              title: 'Marketing',
+              icon: Icons.campaign_outlined,
+              color: Colors.purple,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const MarketingDashboardScreen()),
+                );
+              },
+            ),
+            const Expanded(child: SizedBox()),
           ],
         ),
       ],
@@ -86,12 +110,14 @@ class QuickActionsGroup extends StatelessWidget {
                   color: color.withOpacity(0.1),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(icon, color: color, size: responsiveComponantSize(context, 28)),
+                child: Icon(icon,
+                    color: color, size: responsiveComponantSize(context, 28)),
               ),
               SizedBox(height: responsiveComponantSize(context, 12)),
               Text(
                 title,
-                style: AppStyles.styleSemiBold14(context).copyWith(color: AppColors.darkPurple),
+                style: AppStyles.styleSemiBold14(context)
+                    .copyWith(color: AppColors.darkPurple),
               ),
             ],
           ),
