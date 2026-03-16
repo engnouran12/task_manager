@@ -64,7 +64,7 @@ class ChooseUserTypeView extends StatelessWidget {
                 role = 'supervisor';
                 id = 'mgr2'; // Mock supervisor/manager ID
                 Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const BottomNavigationBarUser()),
+                  MaterialPageRoute(builder: (context) => const BottomNavigationBarAdmin()),
                 );
               },
             ),

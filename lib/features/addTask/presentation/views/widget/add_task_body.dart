@@ -4,6 +4,7 @@ import 'package:task_manager/core/constant/constant.dart';
 import 'package:task_manager/core/models/employee/employee_data/employee_data.dart';
 import 'package:task_manager/core/models/projects/project_model.dart';
 import 'package:task_manager/core/models/task/task_model.dart';
+import 'package:task_manager/core/mock/mock_data.dart';
 import 'package:task_manager/core/shared%20widget/custom_button.dart';
 import 'package:task_manager/core/shared%20widget/custom_text_field.dart';
 import 'package:task_manager/core/themes/colors.dart';
@@ -48,14 +49,12 @@ class _AddTaskBodyState extends State<AddTaskBody> {
 
   Future<void> getAllData() async {
     try {
-      var projectCubit = AddProjectCubit.get(context);
-      var employeeCubit = context.read<EmployeesCubit>();
-      itemsproject = await projectCubit.getAllProjects();
-      itemsemployee = await employeeCubit.getAllEmployees();
+      itemsproject = MockData.projects;
+      itemsemployee = MockData.employeeDataList;
     } catch (e) {
       // Handle errors if needed
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to fetch data')),
+        const SnackBar(content: Text('Failed to fetch data')),
       );
     }
   }
@@ -248,16 +247,16 @@ class _AddTaskBodyState extends State<AddTaskBody> {
 
                         try {
                           // Add the task
-                          await addTaskCubit.addTask(taskModel, token!);
+                          MockData.tasks.add(taskModel);
 
-                          // Fetch the original project (awaiting the Future)
-                          originalProject = await AddProjectCubit.get(context).findProjectById(selectedProjectid!);
-
-                          // Update the project status
-                          final updatedProject = originalProject.copyWith(status: 'inprogress');
-
-                          // Update the project in the ProjectTaskCubit
-                          await ProjectTaskCubit.get(context).editProject(selectedProjectid!, updatedProject, context);
+                          // Update the project status in mock data
+                          try {
+                            originalProject = MockData.projects.firstWhere((p) => p.id == selectedProjectid);
+                            final pIndex = MockData.projects.indexOf(originalProject);
+                            if (pIndex != -1) {
+                              MockData.projects[pIndex] = originalProject.copyWith(status: 'inprogress');
+                            }
+                          } catch (_) {}
 
                           // Show success message
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -268,10 +267,10 @@ class _AddTaskBodyState extends State<AddTaskBody> {
                           _nameController.clear();
                           _dueDateController.clear();
                           _descriptionController.clear();
-                          selectedProjectid = '';
-                          selectedEmployeetid = '';
-                          itemsemployee = [];
-                          itemsproject = [];
+                          setState(() {
+                            selectedProjectid = '';
+                            selectedEmployeetid = '';
+                          });
                         } catch (e) {
                           // Handle any errors
                           ScaffoldMessenger.of(context).showSnackBar(

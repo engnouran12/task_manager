@@ -9,6 +9,12 @@ class HomeAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String displayName = userName ?? 'User';
+    String displayRole = role ?? 'Role';
+    String initials = displayName.split(' ').length > 1
+        ? '${displayName.split(' ')[0][0]}${displayName.split(' ')[1][0]}'
+        : displayName[0];
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -17,7 +23,7 @@ class HomeAppBar extends StatelessWidget {
           radius: responsiveComponantSize(context, 28),
           backgroundColor: AppColors.deepPurple,
           child: Text(
-            '${MockData.adminFirstName[0]}${MockData.adminLastName[0]}',
+            initials.toUpperCase(),
             style: AppStyles.styleSemiBold14(context)
                 .copyWith(color: AppColors.white, fontSize: responsiveComponantSize(context, 16)),
           ),
@@ -31,18 +37,18 @@ class HomeAppBar extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    MockData.adminFirstName,
+                    displayName.split(' ')[0],
                     style: AppStyles.styleMedium14(context),
                   ),
                   SizedBox(width: responsiveComponantSize(context, 4)),
                   Text(
-                    MockData.adminLastName,
+                    displayName.split(' ').length > 1 ? displayName.split(' ')[1] : '',
                     style: AppStyles.styleMedium14(context),
                   ),
                 ],
               ),
               Text(
-                MockData.adminRole,
+                displayRole,
                 style: AppStyles.styleRegular12(context)
                     .copyWith(color: AppColors.grey),
               ),

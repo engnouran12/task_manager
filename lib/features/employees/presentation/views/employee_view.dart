@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/core/constant/constant.dart';
 import 'package:task_manager/core/models/employee/employee_data/employee_data.dart';
 import 'package:task_manager/core/themes/colors.dart';
 import 'package:task_manager/features/employees/presentation/views/widget/add_employee_body.dart';
@@ -14,7 +15,7 @@ class EmployeesView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: projectEmployees == null
+        floatingActionButton: (projectEmployees == null && (role == 'admin' || role == 'supervisor'))
             ? FloatingActionButton(
                 backgroundColor: AppColors.deepPurple,
                 onPressed: () {

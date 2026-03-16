@@ -42,16 +42,16 @@ class BottomNavEmployeeCubit extends Cubit<BottomNavEmployeeState> {
           color: AppColors.grey,
         ),
         label: 'Add Task'),
-    BottomNavigationBarItem(
-        activeIcon: Icon(
-          Icons.person,
-          color: AppColors.deepPurple,
-        ),
-        icon: Icon(
-          Icons.person,
-          color: AppColors.grey,
-        ),
-        label: 'Profile')
+    // BottomNavigationBarItem(
+    //     activeIcon: Icon(
+    //       Icons.person,
+    //       color: AppColors.deepPurple,
+    //     ),
+    //     icon: Icon(
+    //       Icons.person,
+    //       color: AppColors.grey,
+    //     ),
+    //     label: 'Profile')
   ];
 
   int get selectedIndex => _selectedIndex;

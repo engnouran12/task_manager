@@ -51,6 +51,7 @@ class AuthCubit extends Cubit<AuthState> {
           EmployeeData employee = EmployeeData.fromMap(
               response['employee'] as Map<String, dynamic>);
           authEmployeeId = employee.id!;
+          userName = '${employee.firstName} ${employee.secondName}';
           await locale.addToken(response['token']);
           await locale.putBool('isLogIn', true);
           await locale.putString('id', employee.id!);

@@ -47,7 +47,8 @@ class HomeBody extends StatelessWidget {
         SliverToBoxAdapter(
           child: SizedBox(height: responsiveComponantSize(context, 16)),
         ),
-        const SliverToBoxAdapter(child: AllemployeesCard()),
+        if (role == 'admin' || role == 'supervisor')
+          const SliverToBoxAdapter(child: AllemployeesCard()),
       ],
     );
   }

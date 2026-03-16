@@ -31,28 +31,29 @@ class ProjectTaskBody extends StatelessWidget {
                   child: CustomSearchBar(hinttext: 'Search Project...'),
                 ),
                 SizedBox(width: responsiveComponantSize(context, 8)),
-                Container(
-                  height: screenHeight(context) / 17,
-                  width: screenWidth(context) / 9,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.rectangle,
-                    color: AppColors.white,
-                  ),
-                  child: IconButton(
-                    icon: const Icon(
-                      Icons.note_add_outlined,
-                      color: AppColors.deepPurple,
+                if (role == 'admin' || role == 'supervisor')
+                  Container(
+                    height: screenHeight(context) / 17,
+                    width: screenWidth(context) / 9,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      color: AppColors.white,
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const AddProjectView(),
-                        ),
-                      );
-                    },
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.note_add_outlined,
+                        color: AppColors.deepPurple,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const AddProjectView(),
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                ),
               ],
             ),
             SizedBox(height: responsiveComponantSize(context, 24)),

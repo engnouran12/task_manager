@@ -95,4 +95,13 @@ class ProjectModel {
         'description: $description, employees: $employees, hidden: $hidden, '
         'managerId: $managerId, createdAt: $createdAt, updatedAt: $updatedAt, status: $status}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is ProjectModel && id == other.id;
+  }
+
+  @override
+  int get hashCode => id?.hashCode ?? 0;
 }
