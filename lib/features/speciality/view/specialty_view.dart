@@ -14,7 +14,9 @@ class SpecialtyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocProvider(
+      create: (_) => SpecialtyCubit(),
+      child: Scaffold(
       floatingActionButton:role!='employee'? FloatingActionButton(
         onPressed: () {
           _specialityController.clear(); // Clear the text field before showing dialog
@@ -71,6 +73,7 @@ class SpecialtyView extends StatelessWidget {
       )
       : null,
       body: const SpecialityBody(),
+    ),
     );
   }
 }

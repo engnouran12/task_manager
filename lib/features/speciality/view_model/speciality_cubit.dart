@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_manager/core/helper/error_handling.dart';
+import 'package:task_manager/core/mock/mock_data.dart';
 import 'package:task_manager/core/models/Speciality/speciality_model.dart';
 import 'package:task_manager/core/services/remote_repo/admin/spacilitys/spacility.dart';
 import 'package:task_manager/features/speciality/view_model/speciality_state.dart';
 
 class SpecialtyCubit extends Cubit<SpecialtysState> {
-  final SpecialityServices _specialtyServices;
+  final SpecialityServices? _specialtyServices;
 
-  SpecialtyCubit(this._specialtyServices) : super(SpecialtysInitialState());
+  SpecialtyCubit([this._specialtyServices]) : super(SpecialtysInitialState());
 
   static SpecialtyCubit get(context) => BlocProvider.of(context);
 
   Future<void> addSpeciality(Speciality speciality, BuildContext context) async {
     emit(SpecialtysLoadingState());
     try {
-      await _specialtyServices.addSpeciality(speciality);
+      // Add to mock data instead of API call
+      MockData.specialties.add(speciality);
       await getAllSpecialtys();
     } catch (e) {
       // Log the full error details
@@ -30,9 +32,9 @@ class SpecialtyCubit extends Cubit<SpecialtysState> {
   Future<void> getSpecialtyById(String id) async {
     emit(SpecialtysLoadingState());
     try {
-      final specialty = await _specialtyServices.findSpecialityById(id);
+      // Find from mock data instead of API call
+      final specialty = MockData.specialties.firstWhere((s) => s.id == id);
       emit(SpecialtysLoadedState(specialty: specialty));
-
     } catch (e) {
       emit(SpecialtysErrorState(e.toString()));
     }
@@ -41,7 +43,8 @@ class SpecialtyCubit extends Cubit<SpecialtysState> {
   Future<void> getAllSpecialtys() async {
     emit(SpecialtysLoadingState());
     try {
-      final specialtys = await _specialtyServices.getAllSpecialities();
+      // Use mock data instead of API call
+      final specialtys = MockData.specialties;
       emit(SpecialtysLoadedState(specialtys: specialtys));
     } catch (e) {
       emit(SpecialtysErrorState(e.toString()));

@@ -32,7 +32,7 @@ class ChooseUserTypeView extends StatelessWidget {
             const SizedBox(height: 40),
             _buildRoleButton(
               context: context,
-              title: 'Admin',
+              title: 'manger',
               icon: Icons.admin_panel_settings,
               onTap: () {
                 role = 'admin';
